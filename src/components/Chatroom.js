@@ -1,5 +1,7 @@
 import React,{Component} from 'react';
 import { url} from '../constants'
+import {connect} from 'react-redux'
+import {addMessages} from '../actions'
 
 class Chatroom extends Component {
     
@@ -16,7 +18,7 @@ componentDidMount(){
     this.source.onmessage = event => {
         console.log(" Got a message ! ", event)
         const messages = JSON.parse(event.data);
-        
+        this.props.addMessages(messages)
         
         this.setState({
             messages
@@ -26,17 +28,27 @@ componentDidMount(){
 }
 
     render(){
-        console.log("local state : ", this.state)
+        console.log("local state : ", this.props)
+        if(!this.props.messages) return "wait for messages"
 
         return <div>
             <ul>
                {
-                   this.state.messages.map(message => <li key={message.id} > {message.message}</li>)
+                   this.props.messages.map(message => <li key={message.id} > {message.message}</li>)
                }
                </ul>   
             </div>
     }
   
 }
+function mapStateToProps (reduxState) {
+    console.log("redux state : ", reduxState)
+    return {
+        messages : reduxState.messages
+    }
+}
 
-export default Chatroom;
+const mapDispatchToProps = {addMessages}
+
+
+export default connect(mapStateToProps, mapDispatchToProps) (Chatroom);
