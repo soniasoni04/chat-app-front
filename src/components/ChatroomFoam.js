@@ -6,7 +6,6 @@ class ChatroomFoam extends Component {
 
 state={
     message : " "
-
 }
 
 onChange=(event)=>{
@@ -20,15 +19,18 @@ onSubmit=(event)=>{
     event.preventDefault()
     console.log("onsubmit of chatroomfoam")
     request.post(`${url}/message`)
-    .send({message : this.state.message})
+    .send({message : this.state.message}) //sending data to table 
     .catch(error => console.log("got error : ", error))
+
+    this.setState({
+        message : " "
+    })
 }
 
-
-
-    render(){
+render(){
         return (
             <div>
+            <h2> Type your messages here : </h2>
                 <form onSubmit={this.onSubmit}>
                     <input 
                         name="messageform"
@@ -36,9 +38,7 @@ onSubmit=(event)=>{
                         onChange={this.onChange}
                         value={this.state.message}
                         placeholder="TypeYourMessageHere"
-                    >
-
-                    </input>
+                    />
                     <input type="Submit" />
                     
                 </form>

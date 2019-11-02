@@ -19,6 +19,8 @@ componentDidMount(){
         console.log(" Got a message ! ", event)
         const messages = JSON.parse(event.data);
         this.props.addMessages(messages)
+         
+        //this.props.dispatch(addMessages(messages))
         
         this.setState({
             messages
